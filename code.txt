@@ -1,0 +1,395 @@
+
+import pandas as pd
+import numpy as np
+
+fb = pd.read_csv('Path/to/the/Dataset/Facebook.csv')
+
+# Part A --> Create data subsets
+
+fb1 = fb[['Page total likes', 'Category', 'Post Month', 'Post Weekday']].loc[0:15]
+print(fb1)
+
+fb2 = fb[['Page total likes', 'Category', 'Post Month', 'Post Weekday']].loc[16:30]
+print(fb2)
+
+fb3 = fb[['Page total likes', 'Category', 'Post Month', 'Post Weekday']].loc[31:50]
+print(fb3)
+
+# Part B --> Merge Data
+
+merging = pd.concat([fb1, fb2, fb3])
+print(merging)
+
+
+# Part C --> Sort Data
+
+sort_values = fb.sort_values('Page total likes', ascending = False)
+print(sort_values)
+
+# Part D --> Transpose of data
+
+print(fb.transpose())
+
+
+# Part E --> Shaping Reshaping
+
+shaping = fb.shape
+print(shaping)
+
+pivot_table = pd.pivot_table(fb, index = ['Type', 'Category'], values = 'comment')
+print(pivot_table)
+
+# reshaping using array
+
+reshaping_arr = np.array([1, 2, 3, 4, 5, 6])
+reshaping_arr.reshape(3, 2)
+
+#now start of second
+#
+#
+#
+import os 
+import pandas as pd 
+import numpy as np
+os.chdir(r"C:\\Users\\rohit\\OneDrive\\Desktop\\DSBDA")
+
+#air_q = pd.read_csv('airquality.csv',index_col=0)
+#pd.head()
+
+aq = pd.read_csv(r'C:\Users\rohit\OneDrive\Desktop\DSBDA\airquality.csv')
+hrt = pd.read_csv(r'C:\Users\rohit\OneDrive\Desktop\DSBDA\heart.csv')
+
+print(aq.head())
+print(hrt.head())
+
+print(aq.isnull().sum())  #to check if any null value
+
+
+
+# Part A --> Data Cleaning
+
+# Handle missing values
+aq['Ozone'].fillna(aq['Ozone'].mean(), inplace=True)
+aq['Solar.R'].fillna(aq['Solar.R'].median(), inplace=True)
+
+# Remove duplicates
+aq.drop_duplicates(inplace=True)
+
+# Remove outliers
+aq = aq[(aq['Ozone'] >= 0) & (aq['Ozone'] <= 200)]
+
+# Standardize the Date column
+aq['Day'] = pd.to_datetime(aq['Day'])
+
+# Print cleaned dataset
+print(aq.head())
+
+
+
+# Part B --> Data Integration
+
+# Concatenate the datasets vertically
+merged_data = pd.concat([aq, hrt], axis=0)
+
+# Print the integrated dataset
+print(merged_data.head())
+
+
+# Part C --> Data transformation
+print(aq.dtypes)
+
+# Converting datatype explicitly
+
+aq['Ozone'] = aq['Ozone'].astype('object')
+print(aq.dtypes)
+
+
+# Min-Max Normalization
+def MinMax_normalize(x):
+    return (x - x.min()) / (x.max() - x.min())
+
+# Apply the transformation function to the specified columns
+columns_to_normalize = ['Ozone', 'Solar.R', 'Wind', 'Temp', 'Month', 'Day']
+aq[columns_to_normalize] = aq[columns_to_normalize].apply(MinMax_normalize)
+
+# Z-Score Normalization
+def ZScore_normalize(x):
+    return (x - x.mean()) / x.std()
+
+# Apply the transformation function to the specified columns
+aq[columns_to_normalize] = aq[columns_to_normalize].apply(ZScore_normalize)
+
+columns_to_normalize = ['Ozone', 'Solar.R', 'Wind', 'Temp', 'Month', 'Day']
+aq[columns_to_normalize] = ZScore_normalize(aq[columns_to_normalize])
+
+
+## get dummies for categorical data
+
+# Create separate arrays for each column
+Ozone = [41, 36, 12, 18, 37, 29, 23]
+Solar_R = [190, 118, 149, 313, None, 299, 99]
+Wind = [7.4, 8.0, 12.6, 11.5, 12.6, 10.9, 13.8]
+Temp = [67, 72, 74, 62, 65, 66, 68]
+Month = [5, 5, 5, 5, 6, 6, 6]
+Day = [1, 2, 3, 4, 5, 6, 7]
+
+# Create a dictionary with column names as keys and corresponding arrays as values
+data = {'Ozone': Ozone, 'Solar.R': Solar_R, 'Wind': Wind, 'Temp': Temp, 'Month': Month, 'Day': Day}
+
+# Create the DataFrame
+aqdf = pd.DataFrame(data)
+
+# Display the DataFrame
+print(aqdf)
+
+
+# Part D --> Error correcting
+
+# Check unique values in the respective columns
+print(np.unique(aq['Ozone']))
+print(np.unique(aq['Solar.R']))
+print(np.unique(aq['Wind']))
+print(np.unique(aq['Temp']))
+print(np.unique(aq['Month']))
+print(np.unique(aq['Day']))
+
+# Replace inconsistent values with desired format
+aq['Ozone'].replace('missing_value', np.nan, inplace=True)  # Replace 'missing_value' with NaN or any appropriate value
+aq['Solar.R'].replace('missing_value', np.nan, inplace=True)  # Replace 'missing_value' with NaN or any appropriate value
+
+# Convert columns to numeric data type
+aq['Ozone'] = pd.to_numeric(aq['Ozone'])
+aq['Solar.R'] = pd.to_numeric(aq['Solar.R'])
+
+# Verify the changes
+print(aq['Ozone'].dtype)
+print(aq['Solar.R'].dtype)
+
+
+
+
+   #now third ih here
+
+#
+#
+#
+#
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Read the CSV file
+cars_data = pd.read_csv('Toyota.csv', index_col=0, na_values=['??', '????'])
+
+# Drop rows with missing values
+cars_data.dropna(axis=0, inplace=True)
+
+# Scatter Plot
+plt.scatter(cars_data['Age'], cars_data['Price'], c='blue')
+plt.title("Scatter Plot Car Price vs Age")
+plt.xlabel('Age in months')
+plt.ylabel('Price in Dollars')
+plt.show()
+
+# Histogram
+plt.hist(cars_data['KM'], color='blue', edgecolor='white', bins=5)
+plt.title("Histogram of Kilometer run")
+plt.xlabel('Kilometers')
+plt.ylabel('Frequency')
+plt.show()
+
+# Bar Plot
+fuelTypes = ('Petrol', 'Diesel', 'CNG')
+counts = cars_data['FuelType'].value_counts()
+index = np.arange(len(fuelTypes))
+
+plt.bar(index, counts, color=['red', 'green', 'cyan'])
+plt.title("Bar Plot of Fuel Type")
+plt.xlabel('Fuel Used')
+plt.ylabel('Frequency')
+plt.xticks(index, fuelTypes, rotation=90)
+plt.show()
+
+# Scatter Plot using seaborn
+sns.set(style='darkgrid')
+sns.regplot(x=cars_data['Age'], y=cars_data['Price'])
+plt.show()
+
+# Histogram using seaborn
+sns.displot(cars_data['Age'])
+plt.show()
+
+# Bar Plot using seaborn
+sns.countplot(x='FuelType', data=cars_data)
+plt.show()
+
+# Box Plot using seaborn
+sns.boxplot(y=cars_data['Price'])
+plt.show()
+sns.boxplot(y=cars_data['Price'], x=cars_data['FuelType'])
+plt.show()
+
+
+
+
+
+
+
+
+
+
+##hadoop
+#
+#
+#
+#
+Steps for running Word count- Map-Reduce example-
+1. format hadoop namenode
+
+home/hduser: ~$ hadoop namenode -format
+Note that hadoop namenode -format command should be executed once before we start
+using Hadoop. If this command is executed again after Hadoop has been used, it'll destroy all the
+data on the Hadoop file system.
+1. Create directory on home WordCountAss – place WordCount.java to this directory
+2. Create directory on home WordCountAss / input – to place a file ‘input.text’
+3. Create directory on home WordCountAss / Wc_Classes – to place all class files of compiled
+WordCount.java
+2. start all dfs and yarn deomans
+home/hduser: ~$ start-all.sh
+home/hduser: ~$ jps
+[ Make sure that all dfs and yarn deomans are running, if not stop all deomans and then remove
+and recreate datanode and namenode diecrtories in hadoop space]
+3. Set classpath
+home/hduser: ~$ export HADOOP_CLASSPATH=$(hadoop classpath)
+home/hduser: ~$ echo $HADOOP_CLASSPATH
+4. Create directotries on hadoop file system
+home/hduser: ~$ hadoop dfs -mkdir /wc
+home/hduser: ~$ hadoop dfs -mkdir /wc /wc/input
+5. Place input.txt on hadoop file system
+home/hduser: ~$ hadoop fs -put '/home/hduser/WordCountAss/input/input.txt' /wc/input
+6. Check on namenode web interface if file is copied on hadoop file system
+7. Compile WordCount.java
+home/hduser: ~$ cd WordCountAss
+home/hduser/WordCountAss: ~$ javac -classpath
+${HADOOP_CLASSPATH}-d'/home/hduser/WordCountAss/WC_classes'
+'/home/hduser/WC/WordCount.java'
+8. Create jar file
+home/hduser/WordCountAss: ~$ jar cvf wc2.jar-C WC_classes/.
+9. execute jar.
+home/hduser/WordCountAss: ~$ hadoop jar /home/hduser/WordCountAss/wc2.jar
+WordCount /wc/input /wc/output
+10. Successful execution, observe the output at hadoop file system and copy the the same to view
+on terminal.
+home/hduser/WordCountAss: ~ $ hadoop dfs -cat /wc/output/*
+11. stop all deamons
+home/hduser: ~$ stop-all.sh
+
+
+*****************
+
+
+The provided code is a step-by-step guide for running a Word Count Map-Reduce example in Hadoop. Let's go through each step to understand what it does:
+
+    Format the Hadoop NameNode:
+    This step formats the Hadoop NameNode, which prepares it for use. It is a one-time command that initializes the file system metadata and directory structure.
+
+    Create the necessary directories:
+    Here, you create three directories: "WordCountAss" (the main directory), "WordCountAss/input" (to store the input file), and "WordCountAss/WC_Classes" (to store the compiled class files of the WordCount program).
+
+    Start all DFS and YARN daemons:
+    This step starts the DFS (Distributed File System) and YARN (Yet Another Resource Negotiator) daemons. These are essential components of Hadoop for distributed file storage and resource management, respectively.
+
+    Set the classpath:
+    The classpath is set to include the Hadoop libraries. This ensures that the Hadoop commands and classes are accessible during compilation and execution.
+
+    Create directories on the Hadoop file system:
+    Use the Hadoop command "hadoop dfs -mkdir" to create two directories: "/wc" and "/wc/input" on the Hadoop file system. These directories will be used to store the input and output files for the Word Count example.
+
+    Place the input file on the Hadoop file system:
+    The input file, "input.txt," is copied from the local file system to the Hadoop file system using the "hadoop fs -put" command. It is stored in the "/wc/input" directory.
+
+    Check the Namenode web interface:
+    This step suggests checking the Namenode web interface to verify if the input file has been successfully copied to the Hadoop file system. The Namenode web interface provides a graphical representation of the Hadoop cluster's status and file system.
+
+    Compile WordCount.java:
+    The WordCount.java file is compiled using the "javac" command. The "-classpath" option ensures that the Hadoop libraries are included during compilation. The compiled class files are placed in the "WordCountAss/WC_Classes" directory.
+
+    Create a JAR file:
+    A JAR (Java Archive) file is created using the "jar" command. It packages all the class files in the "WC_Classes" directory into a single JAR file named "wc2.jar."
+
+    Execute the JAR file:
+    The JAR file is executed using the "hadoop jar" command. The WordCount class is specified as the main class, followed by the input and output paths ("/wc/input" and "/wc/output" respectively).
+
+    View the output:
+    Once the execution is complete, the output can be observed on the Hadoop file system using the "hadoop dfs -cat" command. The output files are located in the "/wc/output" directory.
+
+    Stop all daemons:
+    Finally, all the Hadoop daemons are stopped using the "stop-all.sh" script. This ensures that the Hadoop cluster is cleanly shut down.
+
+By following these steps, you can run the Word Count Map-Reduce example in Hadoop and obtain the word count output.
+
+
+********* j code
+
+import java.io.IOException;
+import java.util.StringTokenizer;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+public class WordCount {
+
+  public static class TokenizerMapper
+       extends Mapper<Object, Text, Text, IntWritable>{
+
+    private final static IntWritable one = new IntWritable(1);
+    private Text word = new Text();
+
+    public void map(Object key, Text value, Context context
+                    ) throws IOException, InterruptedException {
+      StringTokenizer itr = new StringTokenizer(value.toString());
+      while (itr.hasMoreTokens()) {
+        word.set(itr.nextToken());
+        context.write(word, one);
+      }
+    }
+  }
+
+  public static class IntSumReducer
+       extends Reducer<Text,IntWritable,Text,IntWritable> {
+    private IntWritable result = new IntWritable();
+
+    public void reduce(Text key, Iterable<IntWritable> values,
+                       Context context
+                       ) throws IOException, InterruptedException {
+      int sum = 0;
+      for (IntWritable val : values) {
+        sum += val.get();
+      }
+      result.set(sum);
+      context.write(key, result);
+    }
+  }
+
+  public static void main(String[] args) throws Exception {
+    Configuration conf = new Configuration();
+    Job job = Job.getInstance(conf, "word count");
+    job.setJarByClass(WordCount.class);
+    job.setMapperClass(TokenizerMapper.class);
+    job.setCombinerClass(IntSumReducer.class);
+    job.setReducerClass(IntSumReducer.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(IntWritable.class);
+    FileInputFormat.addInputPath(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    System.exit(job.waitForCompletion(true) ? 0 : 1);
+  }
+}
