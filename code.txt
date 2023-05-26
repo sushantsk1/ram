@@ -393,3 +393,118 @@ public class WordCount {
     System.exit(job.waitForCompletion(true) ? 0 : 1);
   }
 }
+
+
+
+
+
+
+#oral
+#
+Tableau is a powerful and widely used data visualization and business intelligence tool developed by Tableau Software. It allows users to connect to various data sources, create interactive visualizations, and share insights with others. Tableau provides a user-friendly interface and offers a range of features that make it easy to explore and analyze data.
+
+
+1D Visualization:
+A 1D visualization represents data along a single dimension, typically using a one-dimensional plot.
+histogram
+bar graph
+line graph
+step graph
+
+Linear Visualization:
+Linear visualization typically refers to the representation of data on a linear scale or axis. It implies a continuous progression of values without any breaks or gaps.
+
+2d visualization
+
+planar visualization
+
+what is cluster?   
+variance
+normalization --> 
+zero
+std deviation
+mean
+median
+PetalLengthCmsepal
+pandas
+numpy
+matplot
+seaborn
+cleaning
+integration
+normalize
+minmax normalize
+shape  --> The "shape" method is used to determine the dimensions or shape of an array or dataframe. 
+reshape --> The "reshape" method is used to change the dimensions or shape of an array.
+
+
+hadoop --> Hadoop is an open-source framework designed to store and process large amounts of data 
+
+(HDFS): It is a distributed file system that provides high-throughput access to data across a cluster of machines. HDFS breaks large files into smaller blocks and replicates them across multiple machines, ensuring fault tolerance and data availability.
+
+MapReduce: It is a programming model and processing engine for distributed data processing in Hadoop.  The processing logic consists of two phases: the "Map" phase, where data is divided into smaller chunks and processed independently, and the "Reduce" phase, where the intermediate results from the Map phase are combined to produce the final output.
+
+YARN (Yet Another Resource Negotiator): It is a resource management framework in Hadoop that allows multiple data processing engines to run on the same cluster. 
+
+The NameNode is the main node and it doesn’t store the actual data. It contains metadata, just like a log file or you can say as a table of content. Therefore, it requires less storage and high computational resources.
+
+all your data is stored on the DataNodes and hence it requires more storage resources. These DataNodes are commodity hardware (like your laptops and desktops) in the distributed environment. 
+
+PIG has two parts: Pig Latin, the language and the pig runtime, for the execution environment. You can better understand it as Java and JVM.
+
+HIVE is a data warehousing component which performs reading, writing and managing large data sets in a distributed environment using SQL-like interface.
+HIVE + SQL = HQL         The query language of Hive is called Hive Query Language(HQL), which is very similar like SQL.
+
+Mahout provides an environment for creating machine learning applications which are scalable. 
+
+Apache Spark is a framework for real time data analytics in a distributed computing environment.The Spark is written in Scala.It executes in-memory computations to increase speed of data processing over Map-Reduce. It is 100x faster than Hadoop for large scale data processing by exploiting in-memory computations and other optimizations. 
+
+HBase is an open source, non-relational distributed database. In other words, it is a NoSQL database. It supports all types of data and that is why, it’s capable of handling anything and everything inside a Hadoop ecosystem.
+
+Apache Drill is used to drill into any kind of data. It’s an open source application which works with distributed environment to analyze large data sets.
+
+The Flume is a service which helps in ingesting unstructured and semi-structured data into HDFS. It gives us a solution which is reliable and distributed and helps us in collecting, aggregating and moving large amount of data sets.
+
+Flume only ingests unstructured data or semi-structured data into HDFS.While Sqoop can import as well as export structured data from RDBMS or Enterprise data warehouses to HDFS or vice versa.
+
+What is the purpose of the Hadoop NameNode format command, and why is it important to execute it before using Hadoop?
+ChatGPT
+
+The purpose of the Hadoop NameNode format command is to initialize the file system metadata stored by the NameNode. When you run the command hadoop namenode -format, it creates an empty file system image and initializes the directory structure for storing data blocks and metadata.
+
+How did you set the classpath for Hadoop? Why is it necessary, and what does it enable?
+Setting the classpath for Hadoop is necessary to ensure that the Hadoop libraries and dependencies are accessible to the Java runtime environment when compiling and running Hadoop programs.
+
+JDK (Java Development Kit): JDK is a software development kit that provides tools and libraries for developing Java applications. It includes the necessary components to compile, debug, and run Java programs.
+
+JVM (Java Virtual Machine): JVM is an integral part of the Java platform. It is a virtual machine that executes Java bytecode, which is the compiled form of Java source code. 	
+
+
+****************
+
+
+The steps provided outline the process for running a Word Count Map-Reduce example on Hadoop. Here's a breakdown of each step:
+
+    Format Hadoop Namenode: Run the command hadoop namenode -format to initialize the Hadoop file system. Note that this command should be executed only once before using Hadoop.
+
+    Create Directories: Create the necessary directories on your local machine. Create a directory called "WordCountAss" and place the "WordCount.java" file in it. Create a subdirectory called "input" inside "WordCountAss" to store the input file. Additionally, create a subdirectory called "Wc_Classes" to store the compiled class files.
+
+    Start Hadoop Daemons: Start all the Hadoop distributed file system (DFS) and Yet Another Resource Negotiator (YARN) daemons using the start-all.sh script. Use the jps command to ensure that all the daemons are running.
+
+    Set Classpath: Set the classpath environment variable to include the Hadoop classpath using the command export HADOOP_CLASSPATH=$(hadoop classpath). Verify the classpath by echoing the variable.
+
+    Create Directories on Hadoop File System: Use the command hadoop dfs -mkdir to create directories on the Hadoop file system. Create the directories /wc and /wc/input to store the input and output files.
+
+    Place Input File on Hadoop File System: Use the command hadoop fs -put to copy the input file (input.txt) from your local machine to the Hadoop file system under the /wc/input directory.
+
+    Compile WordCount.java: Change to the "WordCountAss" directory and compile the "WordCount.java" file using the javac command. Specify the classpath and output directory.
+
+    Create Jar File: Create a JAR file using the jar command. Specify the location of the class files.
+
+    Execute Jar: Run the Word Count example by executing the JAR file using the hadoop jar command. Provide the input and output directories as arguments.
+
+    Check Output: After successful execution, check the output on the Hadoop file system using the hadoop dfs -cat command. This will display the output on the terminal.
+
+    Stop Hadoop Daemons: Use the stop-all.sh script to stop all the Hadoop daemons.
+
+Please note that the steps assume a Unix-like environment, and you may need to adjust the commands accordingly if you are using a different operating system.
